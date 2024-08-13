@@ -1,0 +1,54 @@
+{
+    "aulas": [
+      {
+        "id": "1",
+        "disciplina": "Tópicos em Computação",
+        "horarioInicio": "08:20",
+        "horarioFim": "11:55",
+        "dia": "Segunda-feira"
+      },
+      {
+        "id": "2",
+        "disciplina": "Estrutura de Dados II",
+        "horarioInicio": "14:00",
+        "horarioFim": "17:35",
+        "dia": "Segunda-feira"
+      },
+      {
+        "id": "3",
+        "disciplina": "Processamento de imagens",
+        "horarioInicio": "08:20",
+        "horarioFim": "11:55",
+        "dia": "Terça-feira"
+      },
+      {
+        "id": "4",
+        "disciplina": "Engenharia de Software 2",
+        "horarioInicio": "14:00",
+        "horarioFim": "17:35",
+        "dia": "Terça-feira"
+      },
+      {
+        "id": "5",
+        "disciplina": "Interface Humano-Computador",
+        "horarioInicio": "08:20",
+        "horarioFim": "11:55",
+        "dia": "Quarta-feira"
+      },
+      {
+        "id": "6",
+        "disciplina": "Sistemas Distribuídos",
+        "horarioInicio": "08:20",
+        "horarioFim": "11:55",
+        "dia": "Quinta-feira"
+      },
+      {
+        "id": "7",
+        "disciplina": "Compiladores",
+        "horarioInicio": "8:20",
+        "horarioFim": "11:55",
+        "dia": "Sexta-feira"
+      }
+    ]
+  }
+  

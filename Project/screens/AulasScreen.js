@@ -1,5 +1,5 @@
 // screens/AulasScreen.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import gradeDeAulas from '../assets/gradeDeAulas.json'; // Importa o JSON
@@ -26,11 +26,11 @@ const DiaScreen = ({ dia }) => {
 export default function AulasScreen() {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    { key: 'segunda', title: 'Segunda' },
-    { key: 'terca', title: 'Terça' },
-    { key: 'quarta', title: 'Quarta' },
-    { key: 'quinta', title: 'Quinta' },
-    { key: 'sexta', title: 'Sexta' },
+    { key: 'segunda', title: 'Seg' },
+    { key: 'terca', title: 'Ter' },
+    { key: 'quarta', title: 'Qua' },
+    { key: 'quinta', title: 'Qui' },
+    { key: 'sexta', title: 'Sex' },
   ]);
 
   const renderScene = SceneMap({
@@ -42,20 +42,22 @@ export default function AulasScreen() {
   });
 
   return (
-    <TabView
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{ width: Dimensions.get('window').width }}
-      renderTabBar={props => (
-        <TabBar
-          {...props}
-          indicatorStyle={{ backgroundColor: '#34A853' }}
-          style={{ backgroundColor: '#f8f8f8' }}
-          labelStyle={{ color: 'black', fontWeight: 'bold' }}
-        />
-      )}
-    />
+    <View style={styles.container}>
+      <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{ width: Dimensions.get('window').width }}
+        renderTabBar={props => (
+          <TabBar
+            {...props}
+            indicatorStyle={{ backgroundColor: '#34A853' }}
+            style={{ backgroundColor: '#f8f8f8' }}
+            labelStyle={{ color: 'black', fontWeight: 'bold' }}
+          />
+        )}
+      />
+    </View>
   );
 }
 
@@ -63,6 +65,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingTop: 40, // Adiciona alguns pixels de margem no topo
     backgroundColor: '#f8f8f8',
   },
   aulaContainer: {

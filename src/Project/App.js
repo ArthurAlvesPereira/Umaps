@@ -8,6 +8,9 @@ import AulasScreen from './screens/AulasScreen';
 import LoginScreen from './screens/LoginScreen';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import { colors, fonts } from './styles/theme';
+// import MapScreen from './screens/MapScreen';
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -30,6 +33,18 @@ function HomeStack() {
   );
 }
 
+function AulasStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Aulas"
+        component={AulasScreen}
+        options={{ title: 'Aulas' }}
+      />
+    </Stack.Navigator>
+  )
+}
+
 export default function App() {
   return (
     <NavigationContainer>
@@ -43,25 +58,28 @@ export default function App() {
               iconName = focused ? 'home' : 'home';
             } else if (route.name === 'Aulas') {
               iconName = focused ? 'school' : 'school';
-            } else if (route.name === 'Recents') {
-              iconName = focused ? 'history' : 'history';
-            }
+            } 
+            // else if (route.name === 'Mapa') {
+            //   iconName = focused ? 'history' : 'history';
+            // }
 
             return <MaterialIcons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#34A853',
-          tabBarInactiveTintColor: 'gray',
+          tabBarActiveTintColor: colors.white,
+          tabBarInactiveTintColor: colors.white,
           tabBarStyle: {
+            backgroundColor: colors.green,
             position: 'absolute',
             height: 60,
             paddingBottom: 10,
+            display: route.name === 'Aulas' ? 'none' : 'flex',
           },
           headerShown: false, // Oculta o cabeçalho em todas as telas do Tab.Navigator
         })}
       >
         <Tab.Screen name="Home" component={HomeStack} />
-        <Tab.Screen name="Recents" component={HomeScreen} />
-        <Tab.Screen name="Aulas" component={AulasScreen} />
+        {/* <Tab.Screen name="Mapa" component={MapScreen} /> */}
+        <Tab.Screen name="Aulas" component={AulasStack} />
       </Tab.Navigator>
     </NavigationContainer>
   );

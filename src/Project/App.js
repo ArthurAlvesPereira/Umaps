@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -6,28 +5,31 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import AulasScreen from './screens/AulasScreen';
 import LoginScreen from './screens/LoginScreen';
+import BuscaScreen from './screens/BuscaScreen'; // Importa a BuscaScreen
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { colors, fonts } from './styles/theme';
-// import MapScreen from './screens/MapScreen';
+import { colors } from './styles/theme';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 function HomeStack() {
   return (
-    <Stack.Navigator >
+    <Stack.Navigator>
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        
-        //não mostrar cabeçalho
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Login"
         component={LoginScreen}
         options={{ title: 'Login' }}
+      />
+      <Stack.Screen
+        name="BuscaScreen"  // Adiciona a BuscaScreen ao Stack
+        component={BuscaScreen}
+        options={{ title: 'Buscar' }}
       />
     </Stack.Navigator>
   );
@@ -39,10 +41,16 @@ function AulasStack() {
       <Stack.Screen
         name="Aulas"
         component={AulasScreen}
-        options={{ title: 'Aulas' }}
+        options={{
+          title: 'Aulas',
+          headerStyle: {
+            backgroundColor: colors.green, // Define o fundo verde
+          },
+          headerTintColor: colors.white, // Define a cor do texto do cabeçalho
+        }}
       />
     </Stack.Navigator>
-  )
+  );
 }
 
 export default function App() {
@@ -58,10 +66,7 @@ export default function App() {
               iconName = focused ? 'home' : 'home';
             } else if (route.name === 'Aulas') {
               iconName = focused ? 'school' : 'school';
-            } 
-            // else if (route.name === 'Mapa') {
-            //   iconName = focused ? 'history' : 'history';
-            // }
+            }
 
             return <MaterialIcons name={iconName} size={size} color={color} />;
           },
@@ -78,7 +83,6 @@ export default function App() {
         })}
       >
         <Tab.Screen name="Home" component={HomeStack} />
-        {/* <Tab.Screen name="Mapa" component={MapScreen} /> */}
         <Tab.Screen name="Aulas" component={AulasStack} />
       </Tab.Navigator>
     </NavigationContainer>

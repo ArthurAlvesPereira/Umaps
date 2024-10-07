@@ -1,17 +1,20 @@
-// screens/HomeScreen.js
 import React from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, StyleSheet, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import SearchBar from '../Components/SearchBar';
 
 export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
+      {/* Barra de busca como botão */}
+      <SearchBar navigation={navigation} isSearchEnabled={false} />
+
       {/* Imagem de fundo */}
-      <Image
-        source={require('../assets/image.png')} // Substitua pelo caminho da sua imagem
+      {/* <Image
+        source={require('../assets/image.png')}
         style={styles.backgroundImage}
         resizeMode="cover"
-      />
+      /> */}
 
       {/* Ícone de usuário no canto superior direito */}
       <TouchableOpacity

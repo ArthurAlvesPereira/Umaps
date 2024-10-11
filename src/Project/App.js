@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import AulasScreen from './screens/AulasScreen';
 import LoginScreen from './screens/LoginScreen';
-import BuscaScreen from './screens/BuscaScreen'; // Importa a BuscaScreen
+import BuscaScreen from './screens/BuscaScreen'; 
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { colors } from './styles/theme';
@@ -27,7 +27,7 @@ function HomeStack() {
         options={{ title: 'Login' }}
       />
       <Stack.Screen
-        name="BuscaScreen"  // Adiciona a BuscaScreen ao Stack
+        name="BuscaScreen"  
         component={BuscaScreen}
         options={{ title: 'Buscar' }}
       />
@@ -44,9 +44,9 @@ function AulasStack() {
         options={{
           title: 'Aulas',
           headerStyle: {
-            backgroundColor: colors.green, // Define o fundo verde
+            backgroundColor: colors.green, 
           },
-          headerTintColor: colors.white, // Define a cor do texto do cabeçalho
+          headerTintColor: colors.white,
         }}
       />
     </Stack.Navigator>

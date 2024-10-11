@@ -1,6 +1,6 @@
 {
     "locais": [
-        {"id": 1, "nome": "Restaurante Universitario", "endereço": "Campus Universitário, Londrina - PR", "horarioAbertura": "11:00", "horarioFechamento": "14:00"},
-        {"id": 2, "nome": "Biblioteca Central", "endereço":"Campus Universitário, Londrina - PR", "horarioAbertura": "08:00", "horarioFechamento": "22:00"}
+        {"id": 1, "nome": "Restaurante Universitario", "endereço": "Campus Universitário, Londrina - PR", "horarioAbertura": "11:00", "horarioFechamento": "14:00", "dataPesquisa": "2024-10-01"},
+        {"id": 2, "nome": "Biblioteca Central", "endereço":"Campus Universitário, Londrina - PR", "horarioAbertura": "08:00", "horarioFechamento": "22:00", "dataPesquisa": "2021-09-02"}
     ]
 }

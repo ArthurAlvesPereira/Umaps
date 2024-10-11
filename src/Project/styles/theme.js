@@ -1,3 +1,5 @@
+//styles/theme.js
+
 export const colors = {
     green: '#147B40',
     orange: '#E2650E',

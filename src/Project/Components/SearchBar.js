@@ -1,8 +1,9 @@
+// components/SearchBar.js
 import React from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function SearchBar({ navigation, isSearchEnabled }) {
+export default function SearchBar({ navigation, isSearchEnabled, onSearch }) {
   return (
     <View style={styles.searchContainer}>
       {isSearchEnabled ? (
@@ -12,7 +13,7 @@ export default function SearchBar({ navigation, isSearchEnabled }) {
           <TextInput
             placeholder="Buscar..."
             style={styles.input}
-            // Aqui você pode adicionar a lógica de busca
+            onChangeText={onSearch}  // Chama a função de busca ao digitar
           />
         </View>
       ) : (

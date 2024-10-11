@@ -1,58 +1,97 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, FlatList } from 'react-native';
+import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Modal, Button } from 'react-native';
 import SearchBar from '../Components/SearchBar';
-import locaisData from '../assets/locais.json'; // Certifique-se de colocar o caminho correto do seu JSON
-
-// Função para verificar se o local está aberto ou fechado
-const verificarStatus = (horarioAbertura, horarioFechamento) => {
-  const agora = new Date();
-  const horaAtual = agora.getHours();
-  const minutosAtuais = agora.getMinutes();
-
-  // Converte horários de abertura e fechamento para números
-  const [horaAbertura, minutosAbertura] = horarioAbertura.split(':').map(Number);
-  const [horaFechamento, minutosFechamento] = horarioFechamento.split(':').map(Number);
-
-  if (horaAtual > horaAbertura || (horaAtual === horaAbertura && minutosAtuais >= minutosAbertura)) {
-    if (horaAtual < horaFechamento || (horaAtual === horaFechamento && minutosAtuais <= minutosFechamento)) {
-      return `Aberto - Fecha às ${horarioFechamento}`;
-    }
-  }
-  return `Fechado - Abre às ${horarioAbertura}`;
-};
-
-// Componente para exibir cada item recente
-function RecentesItem({ data }) {
-  const status = verificarStatus(data.horarioAbertura, data.horarioFechamento);
-  return (
-    <View style={styles.recentesItem}>
-      <Text style={styles.nome}>{data.nome}</Text>
-      <Text style={styles.endereco}>{data.endereço}</Text>
-      <Text style={styles.status}>{status}</Text>
-    </View>
-  );
-}
+import locaisData from '../assets/locais.json'; // Importa o JSON com os locais
+import { calcularRota } from '../Components/MapController'; // Importa a função calcularRota
 
 export default function BuscaScreen({ navigation }) {
-  const [locais, setLocais] = useState([]);
+  const [locais, setLocais] = useState([]);  // Guarda os locais carregados
+  const [searchResults, setSearchResults] = useState([]);  // Guarda os resultados da busca
+  const [searchQuery, setSearchQuery] = useState('');  // Guarda o termo de busca
+  const [modalVisible, setModalVisible] = useState(false);  // Controla a visibilidade do popup
+  const [selectedLocal, setSelectedLocal] = useState(null);  // Guarda o local selecionado
 
   useEffect(() => {
-    // Carrega os dados dos locais
+    // Carrega os dados dos locais ao carregar a tela
     setLocais(locaisData.locais);
+    setSearchResults(locaisData.locais); // Inicialmente, mostra todos os locais
   }, []);
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);  // Atualiza o termo de busca
+
+    // Filtra os locais com base no termo de busca
+    const filteredLocais = locais.filter((local) =>
+      local.nome.toLowerCase().includes(query.toLowerCase())
+    );
+
+    // Atualiza os resultados da busca
+    setSearchResults(filteredLocais);
+  };
+
+  const handleCalcularRota = (local) => {
+    setSelectedLocal(local);  // Define o local selecionado
+    setModalVisible(true);  // Exibe o popup
+    const rota = calcularRota(local);  // Chama a função calcularRota com os dados do local
+    console.log(rota);  // Exibe a rota calculada no console
+
+    // navigation.navigate('MapScreen', { local });  // Navega para a tela de mapa ainda não implementado
+  };
+
+  const closeModal = () => {
+    setModalVisible(false); 
+    setSelectedLocal(null);  
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       {/* Barra de busca funcional */}
-      <SearchBar navigation={navigation} isSearchEnabled={true} />
-
-      {/* Lista de locais recentes */}
-      <FlatList
-        data={locais}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <RecentesItem data={item} />}
-        contentContainerStyle={styles.listaRecente}
+      <SearchBar
+        navigation={navigation}
+        isSearchEnabled={true}
+        onSearch={handleSearch}  // Passa a função de busca para a SearchBar
       />
+
+      {/* Verifica se há resultados */}
+      {searchResults.length > 0 ? (
+        <FlatList
+          data={searchResults}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handleCalcularRota(item)}>
+              <View style={styles.recentesItem}>
+                <Text style={styles.nome}>{item.nome}</Text>
+                <Text style={styles.endereco}>{item.endereço}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          contentContainerStyle={styles.listaRecente}
+        />
+      ) : (
+        // Mensagem exibida quando não há resultados correspondentes
+        <View style={styles.noResultsContainer}>
+          <Text style={styles.noResultsText}>Não há lugar correspondente</Text>
+        </View>
+      )}
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            {selectedLocal && (
+              <>
+                <Text style={styles.modalTitle}>Calculando rota para:</Text>
+                <Text style={styles.modalText}>{selectedLocal.nome}</Text>
+              </>
+            )}
+            <Button title="Fechar" onPress={closeModal} />
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -83,9 +122,35 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
-  status: {
-    marginTop: 5,
-    fontSize: 14,
-    color: '#147B40',
+  noResultsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noResultsText: {
+    fontSize: 18,
+    color: '#666',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',  // Fundo escurecido
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  modalText: {
+    fontSize: 16,
+    marginBottom: 20,
   },
 });

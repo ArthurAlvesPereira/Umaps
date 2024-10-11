@@ -46,7 +46,7 @@ export default function BuscaScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       {/* Barra de busca funcional */}
-      <SearchBar
+      <chBarSear
         navigation={navigation}
         isSearchEnabled={true}
         onSearch={handleSearch}  // Passa a função de busca para a SearchBar
